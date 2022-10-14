@@ -18,20 +18,25 @@
     display: flex;
     height: 50%;
 
-    & input {
+    form {
       width: 100%;
-      border-width: 0px;
-      
-      &:focus {
-        border: 1px solid #ccc3ac;
-        outline: none;
-      }
-    
-      &:active {
-        border: 1px solid #ccc3ac;
+      height: 100%;
+
+      input {
+        width: 100%;
+        border-width: 0px;
+
+        &:focus {
+          border: 0;
+          outline: none;
+        }
+
+        &:active {
+          border: 0;
+        }
       }
     }
-    
+
     & img {
       display: flex;
       justify-self: flex-end;
@@ -52,4 +57,14 @@
   ul {
     width: 100%;
   }
+}
+
+.feather {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }

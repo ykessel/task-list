@@ -2,42 +2,32 @@
   <div class="task-creation">
     <div class="task-creation--top">
       <p>+</p>
-      <input class="task-creation--input" placeholder="Type to add new task" />
+      <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+        <input formControlName="inputTask" #input class="task-creation--input" placeholder="Type to add new task" />
+      </form>
       <img src="../assets/">
     </div>
-    
-    <div class="task-creation--actions">
+
+    <div *ngIf="taskForm.touched" class="task-creation--actions">
       <div class="actions-left">
         <button mat-stroked-button color="primary">Open</button>
-        <button mat-stroked-button color="primary">Today</button>
+        <button mat-stroked-button color="primary"> <svg class="feather">
+          <use href="../assets/calendar.svg"/>
+        </svg>Today</button>
         <button mat-stroked-button color="primary">Public</button>
         <button mat-stroked-button color="primary">Highlight</button>
         <button mat-stroked-button color="primary">Estimation</button>
       </div>
       <div class="actions-right">
         <button mat-stroked-button color="primary" >Cancel</button>
-        <button mat-stroked-button color="primary" >Ok</button>
+        <button mat-stroked-button color="primary" (click)="addTask()">{{ !taskForm.dirty ? 'Ok':'Add'}}</button>
       </div>
     </div>
   </div>
 
   <div class="task-list">
     <ul>
-      <li>
-        <mat-chip># Important</mat-chip> Write to <mat-chip>Email</mat-chip> and
-        tell <mat-chip>natasha</mat-chip> about
-        <mat-chip>Link</mat-chip>
-      </li>
-      <li>
-        <mat-chip># Important</mat-chip> Write to <mat-chip>Email</mat-chip> and
-        tell <mat-chip>natasha</mat-chip> about
-        <mat-chip>Link</mat-chip>
-      </li>
-      <li>
-        <mat-chip># Important</mat-chip> Write to <mat-chip>Email</mat-chip> and
-        tell <mat-chip>natasha</mat-chip> about
-        <mat-chip>Link</mat-chip>
-      </li>
+      <li *ngFor="let task of tasks" >{{ task }}</li>
     </ul>
   </div>
 </section>
