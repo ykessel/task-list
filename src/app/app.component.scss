@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-creation {
+  height: 80px;
+  width: 80%;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #F1F3F4;
+  border-radius: 4px;
+
+  &--top {
+    display: flex;
+    height: 50%;
+
+    & input {
+      width: 100%;
+      border-width: 0px;
+      
+      &:focus {
+        border: 1px solid #ccc3ac;
+        outline: none;
+      }
+    
+      &:active {
+        border: 1px solid #ccc3ac;
+      }
+    }
+    
+    & img {
+      display: flex;
+      justify-self: flex-end;
+    }
+  }
+
+  &--actions {
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.task-list {
+  display: flex;
+  width: 80%;
+
+  ul {
+    width: 100%;
+  }
+}
