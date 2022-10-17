@@ -1,33 +1,193 @@
 <section class="container">
-  <div class="task-creation">
+  <div [class.show-border]="showAction" class="task-creation">
     <div class="task-creation--top">
-      <p>+</p>
-      <form [formGroup]="taskForm" (ngSubmit)="addTask()">
-        <input formControlName="inputTask" #input class="task-creation--input" placeholder="Type to add new task" />
-      </form>
-      <img src="../assets/">
+      <div class="task-creation--top_left">
+        <i-feather
+          name="plus-square"
+          class="feather feather-plus-square"
+        ></i-feather>
+        <div class="output-text" [innerHtml]="displayTextInput"></div>
+        <form [formGroup]="taskForm" (ngSubmit)="addOrUpdateTask()">
+          <input
+            #input
+            [value]="editTask"
+            class="task-creation--input"
+            [placeholder]="displayTextInput == '' ? 'Type to add new task' : ''"
+            formControlName="inputTask"
+            (focus)="setActionVisible()"
+            (keydown.backspace)="deleteLetterDisplayTextInput()"
+            (keydown.space)="sendText(input.value)"
+          />
+        </form>
+      </div>
+      <div *ngIf="showAction" class="task-creation--top_right">
+        <img
+          [class.disabled-img]="input.value == ''"
+          width="20"
+          height="20"
+          src="https://material.angular.io/assets/img/examples/shiba1.jpg"
+          alt="Photo of a Shiba Inu"
+        />
+      </div>
     </div>
 
-    <div *ngIf="taskForm.touched" class="task-creation--actions">
+    <mat-divider *ngIf="showAction"></mat-divider>
+
+    <div class="task-list-tablet">
+      <ng-container *ngFor="let task of tasks ; let i = index">
+        <mat-checkbox data-testid="task-item">
+          <div class="task" (click)="selected(i)" [innerHtml]="textTransform(task, 1) | sanitazeHtml"></div>
+        </mat-checkbox>
+      </ng-container>
+    </div>
+
+    <mat-divider class="divider-tablet" *ngIf="showAction"></mat-divider>
+
+    <div *ngIf="showAction" class="task-creation--actions-tablet">
       <div class="actions-left">
-        <button mat-stroked-button color="primary">Open</button>
-        <button mat-stroked-button color="primary"> <svg class="feather">
-          <use href="../assets/calendar.svg"/>
-        </svg>Today</button>
-        <button mat-stroked-button color="primary">Public</button>
-        <button mat-stroked-button color="primary">Highlight</button>
-        <button mat-stroked-button color="primary">Estimation</button>
+        <button mat-button class="actions-left--open">
+          <i-feather
+            name="maximize-2"
+            class="feather feather-maximize-2"
+          ></i-feather
+          >
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-icon-button
+          class="actions-left--today"
+        >
+          <i-feather
+            name="calendar"
+            class="feather feather-calendar"
+          ></i-feather
+          >
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-icon-button
+          class="actions-left--public"
+        >
+          <i-feather name="message-circle" class="feather feather-unlock"></i-feather
+          >
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-icon-button
+          class="actions-left--highlight"
+        >
+          <i-feather name="sun" class="feather feather-sun"></i-feather
+          >
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-icon-button
+          class="actions-left--estimation"
+        >
+          <i-feather name="disc" class="feather feather-disc"></i-feather
+          >
+        </button>
+        <button
+        [disabled]="input.value == ''"
+        mat-icon-button
+        class="actions-left--estimation"
+      >
+        <i-feather name="trash-2" class="feather feather-disc"></i-feather
+        >
+      </button>
+      </div>
+
+      <div class="actions-right">
+        <button
+          data-testid="button-item"
+          mat-button
+          class="actions-right--ok"
+          (click)="input.value == '' ? (showAction = false) : addOrUpdateTask()"
+        >
+        <i-feather *ngIf="input.value !== '' && editMode == 0"  name="plus" class="feather feather-disc"></i-feather>
+        <i-feather *ngIf="input.value == ''"  name="x" class="feather feather-disc"></i-feather>
+        <i-feather *ngIf="editMode == 1" name="save" class="feather feather-disc"></i-feather>
+          <!-- {{ !taskForm.dirty ? "Ok" : "Add" }} -->
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="showAction" class="task-creation--actions">
+      <div class="actions-left">
+        <button mat-button class="actions-left--open">
+          <i-feather
+            name="maximize-2"
+            class="feather feather-maximize-2"
+          ></i-feather
+          >Open
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-stroked-button
+          class="actions-left--today"
+        >
+          <i-feather
+            name="calendar"
+            class="feather feather-calendar"
+          ></i-feather
+          >Today
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-stroked-button
+          class="actions-left--public"
+        >
+          <i-feather name="unlock" class="feather feather-unlock"></i-feather
+          >Public
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-stroked-button
+          class="actions-left--highlight"
+        >
+          <i-feather name="sun" class="feather feather-sun"></i-feather
+          >Highlight
+        </button>
+        <button
+          [disabled]="input.value == ''"
+          mat-stroked-button
+          class="actions-left--estimation"
+        >
+          <i-feather name="disc" class="feather feather-disc"></i-feather
+          >Estimation
+        </button>
       </div>
       <div class="actions-right">
-        <button mat-stroked-button color="primary" >Cancel</button>
-        <button mat-stroked-button color="primary" (click)="addTask()">{{ !taskForm.dirty ? 'Ok':'Add'}}</button>
+        <button
+          data-testid="button-item"
+          mat-button
+          class="actions-right--cancel"
+        >
+          Cancel
+        </button>
+        <button
+          data-testid="button-item"
+          mat-button
+          class="actions-right--ok"
+          (click)="input.value == '' ? (showAction = false) : addOrUpdateTask()"
+        >
+          {{ input.value !== '' ? "Ok" : "Add" }}
+        </button>
       </div>
     </div>
   </div>
 
   <div class="task-list">
-    <ul>
-      <li *ngFor="let task of tasks" >{{ task }}</li>
-    </ul>
+    <!-- <mat-selection-list #tasksSelect [multiple]="false">
+      <mat-list-option (click)="selected(i)" *ngFor="let task of tasks; let i = index">
+        <div class="task" [innerHtml]="textTransform(task, 1)"></div>
+      </mat-list-option>
+    </mat-selection-list> -->
+
+    <ng-container *ngFor="let task of tasks; let i = index">
+      <mat-checkbox data-testid="task-item">
+        <div class="task" (click)="selected(i)" [innerHtml]="textTransform(task, 1)"></div>
+      </mat-checkbox>
+    </ng-container>
   </div>
 </section>

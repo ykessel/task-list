@@ -1,3 +1,17 @@
+@import "./screens/app.tablet.scss";
+
+$color-important: #702ee6;
+$color-user: #07a873;
+$color-email: #f58e0a;
+$color-link: #5aacff;
+$color-plus-square: #007fff;
+
+* {
+  font-family: "Roboto";
+  font-style: normal;
+  font-size: 16px;
+}
+
 .container {
   display: flex;
   width: 100%;
@@ -7,24 +21,46 @@
 }
 
 .task-creation {
-  height: 80px;
   width: 80%;
   box-sizing: border-box;
-  background: #FFFFFF;
-  border: 1px solid #F1F3F4;
+  background: #ffffff;
   border-radius: 4px;
+  margin-top: 2%;
 
   &--top {
     display: flex;
+    width: 100%;
     height: 50%;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    &_left {
+      display: flex;
+      margin-top: 0.4vw;
+      margin-left: 0.4vw;
+
+      .output-text {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2px;
+        margin-left: 10px;
+        gap: 2px;
+
+        p {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
 
     form {
       width: 100%;
       height: 100%;
 
       input {
-        width: 100%;
+        width: 70vw;
         border-width: 0px;
+        padding: 1px 0px;
+        caret-color: $color-plus-square;
 
         &:focus {
           border: 0;
@@ -40,6 +76,9 @@
     & img {
       display: flex;
       justify-self: flex-end;
+      border-radius: 20px;
+      margin-top: 0.15rem;
+      margin-right: 0.2rem;
     }
   }
 
@@ -47,12 +86,51 @@
     height: 50%;
     display: flex;
     justify-content: space-between;
+    margin: 0.4rem;
+
+    .actions-left {
+      &--open {
+        margin-right: 3rem;
+        background: #eaf0f5;
+        padding: 4px 16px;
+      }
+      .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      button {
+        color: #8A94A6;
+      }
+    }
+
+    .actions-right {
+      &--cancel {
+        background: #eaf0f5;
+      }
+
+      &--ok {
+        color: #fff;
+        background: #0d55cf;
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+  }
+
+  &--actions-tablet, .task-list-tablet, .divider-tablet {
+    display: none;
   }
 }
 
 .task-list {
   display: flex;
   width: 80%;
+  flex-direction: column;
+  margin-left: 1.4vw;
 
   ul {
     width: 100%;
@@ -60,11 +138,122 @@
 }
 
 .feather {
-  width: 24px;
+  display: flex !important;
+  width: 24px !important;
+  height: 24px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.color-important {
+  color: $color-important;
+  stroke: $color-important;
+}
+.color-user {
+  color: $color-user;
+  stroke: $color-user;
+}
+.color-email {
+  color: $color-email;
+  stroke: $color-email;
+}
+
+.color-link {
+  color: $color-link;
+  stroke: $color-link;
+}
+
+
+.feather-plus-square {
+  stroke: $color-plus-square;
+}
+
+.show-border {
+  border: 1px solid #f1f3f4;
+  filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.04))
+    drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.04));
+  margin-bottom: 2rem;
+}
+
+.important-chip {
+  background: #dbc7ff;
+}
+
+.email-chip {
+  background: #ffe6c7;
+}
+
+.user-chip {
+  background: #adf0d9;
+}
+
+.link-chip {
+  background: #d6ebff;
+}
+
+.task {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+
+  p {
+    margin-bottom: 0px !important;
+  }
+
+}
+
+.task-chip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 10px;
   height: 24px;
-  stroke: currentColor;
+  border-radius: 12px;
+  margin: 0 0.2rem;
+  gap: 5px;
+}
+
+mat-checkbox {
+  margin-bottom: 12px;
+}
+
+button:not(.actions-left--open) {
+  margin-right: 0.4rem;
+  padding: 4px 16px;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+background-color: #0d55cf !important;
+}
+
+.disabled-img {
+  filter: contrast(0.5);
+}
+
+.mat-checkbox-inner-container {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.mat-checkbox-frame {
+    border-width: 1px !important;
+}
+
+img {
+    display: flex;
+    justify-self: flex-end;
+    border-radius: 20px;
+    margin-right: 0.2rem;
+    margin-left: -7px;
+}
+
+.feather-sprite {
+  width: 20px;
+  height: 20px;
+  fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  fill: none;
 }

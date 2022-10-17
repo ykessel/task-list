@@ -1,0 +1,67 @@
+@media screen and (max-width: 1280px) {
+  .task-creation--actions, .task-list {
+    display: none !important;
+  }
+
+  .task-creation--actions-tablet {
+    display: flex !important;
+    height: 50%;
+    justify-content: space-between;
+    margin: 0.4rem;
+    margin-right: 0;
+    align-items: center;
+
+    .actions-left {
+      &--open {
+        margin-right: 0px !important;
+        background: #eaf0f5;
+        padding: 4px 16px;
+      }
+      .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      button {
+        color: #8A94A6;
+      }
+    }
+
+    .actions-right {
+      &--cancel {
+        background: #eaf0f5;
+      }
+
+      &--ok {
+        color: #fff;
+        background: #0d55cf;
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .task-list-tablet {
+    display: flex !important;
+    width: 80%;
+    flex-direction: column;
+    margin-left: .6vw;
+    margin-top: 12px;
+
+    ul {
+      width: 100%;
+    }
+  }
+  .mat-button {
+    min-width: 2px !important;
+    min-height: 2px !important;
+    padding: 5px !important;
+  }
+
+  .divider-tablet {
+    display: block !important;
+  }
+}
