@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: 16.x
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -42,5 +42,9 @@ jobs:
       if: steps.node-cache.outputs.cache-hit != 'true' 
       run: npm install   
        
-    - run: npm ci
-    - run: npm run test:prod
+    # Generar compilación de producción
+    - name: Run Build command
+      run: npm run build:prod
+    # Ejecutar pruebas unitarias
+    - name: Run Unit tests
+      run: npm run test:prod
