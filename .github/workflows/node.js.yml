@@ -28,7 +28,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
    
     # Cargar cache de node_modules, para reducir tiempo de instalación en próximas ejecuciones
     - name: Cache node modules
