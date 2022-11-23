@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -25,6 +25,25 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run test:prod
+   
+    # Cargar cache de node_modules, para reducir tiempo de instalación en próximas ejecuciones
+    # - name: Cache node modules
+    #   id: node-cache # Id del cache
+    #   uses: actions/cache@v1
+    #   with:
+    #     path: node_modules
+    #     # Se usará el mismo cache siempre y cuando sea el mismo sistema operativo y no existan cambios en el archivo package-lock
+    #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+    # Instalar dependencias
+    - name: Install dependencies
+      # No ejecutar si se obtuvo node_modules de cache
+      if: steps.node-cache.outputs.cache-hit != 'true' 
+      run: npm install   
+       
+    # Generar compilación de producción
+    - name: Run Build command
+      run: npm run build:prod
+    # Ejecutar pruebas unitarias
+    - name: Run Unit tests
+      run: npm run test:prod
